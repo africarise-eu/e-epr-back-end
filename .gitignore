@@ -1,0 +1,58 @@
+# Logs
+*.log
+
+# Enviornment variables
+.env
+
+# Dependency directories
+/node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+
+# Optional npm cache directory
+.npm
+temp
+
+# Optional REPL history
+.node_repl_history
+*.sql
+.idea
+.vscode
+logs/*
+cache
+*.txt
+*.aof
+data
+
+/coverage
+/files
+
+# Build output
+dist/
+build/
+out/
+*.tgz
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE or Editor folders
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Optional: Ignore any local config files
+config.local.json

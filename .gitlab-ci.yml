@@ -1,0 +1,173 @@
+stages:
+    - test
+    - dockerize
+    - deploy
+
+.create_env_file:
+    before_script:
+        - cat $env_file > .env
+        - echo DB_PASSWORD=$DB_PASSWORD >> .env
+        - echo AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID >> .env
+        - echo AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY >> .env
+.create_uat_env_file:
+    before_script:
+        - cat $env_uat_file > .env
+        - echo DB_PASSWORD=$DB_PASSWORD >> .env
+        - echo AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID_UAT >> .env
+        - echo AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY_UAT >> .env
+.create_prod_env_file:
+    before_script:
+        - cat $env_prod_file > .env
+        - echo DB_PASSWORD=$DB_PASSWORD >> .env
+        - echo AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID >> .env
+        - echo AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY >> .env
+
+.ignore_git_checkout:
+  variables:
+    GIT_STRATEGY: none
+
+## test Job ##
+test_dev:
+    image: node:21
+    stage: test
+    tags:
+        - tae-api-dev
+    script:
+        - cat $test_env_file > .env
+        - npm ci
+        - npm run test
+
+## dev - conditions ##
+.tags_deploy-env_trigger_condition-dev:
+    tags:
+        - tae-api-shell 
+    environment:
+        name: dev
+    variables:
+        IMAGE_NAME: tae-be-dev
+        CONTAINER_NAME: tae-be-dev
+        DOCKER_HOST_PORT: 3500
+
+## dev Jobs begin ##
+image_build_dev:
+    stage: dockerize
+    extends:
+        - .tags_deploy-env_trigger_condition-dev
+        - .create_env_file
+    when: manual
+    except:
+        - develop
+    script:
+        - docker build -t $IMAGE_NAME:$CI_PIPELINE_IID .
+        - docker tag $IMAGE_NAME:$CI_PIPELINE_IID $IMAGE_NAME:latest
+
+deploy_dev:
+    stage: deploy
+    extends:
+        - .ignore_git_checkout
+        - .tags_deploy-env_trigger_condition-dev
+    needs:
+        - image_build_dev
+    except:
+        - develop
+    script:
+        - docker rm -f `docker ps -a --no-trunc | grep $CONTAINER_NAME | awk '{ print $1}'` 2> /dev/null || echo 0
+        - docker run -d --env-file ./.env --restart unless-stopped -p $DOCKER_HOST_PORT:3500 --name $CONTAINER_NAME $IMAGE_NAME:latest
+        - "echo -e \"LatestImage: $IMAGE_NAME:$CI_PIPELINE_IID\""
+        - docker images | grep "$IMAGE_NAME" | awk '{print $3}' | grep -v $(docker images | grep $IMAGE_NAME |grep latest |awk '{print $3}') | xargs docker rmi || echo 0
+                
+## dev Jobs for develop branch ##
+image_build_dev_develop-br:
+    stage: dockerize
+    extends:
+        - .tags_deploy-env_trigger_condition-dev
+        - .create_env_file
+    only:
+        - develop
+    script:
+        - docker build -t $IMAGE_NAME:$CI_PIPELINE_IID .
+        - docker tag $IMAGE_NAME:$CI_PIPELINE_IID $IMAGE_NAME:latest
+
+deploy_dev_develop-br:
+    stage: deploy
+    extends:
+        - .ignore_git_checkout
+        - .tags_deploy-env_trigger_condition-dev
+    needs:
+        - image_build_dev_develop-br
+    only:
+        - develop
+    script:
+        - docker rm -f `docker ps -a --no-trunc | grep $CONTAINER_NAME | awk '{ print $1}'` 2> /dev/null || echo 0
+        - docker run -d --env-file ./.env --restart unless-stopped -p $DOCKER_HOST_PORT:3500 --name $CONTAINER_NAME $IMAGE_NAME:latest
+        - "echo -e \"LatestImage: $IMAGE_NAME:$CI_PIPELINE_IID\""
+        - docker images | grep "$IMAGE_NAME" | awk '{print $3}' | grep -v $(docker images | grep $IMAGE_NAME |grep latest |awk '{print $3}') | xargs docker rmi || echo 0
+
+
+
+## uat - conditions ##
+.tags_deploy-env_trigger_condition-uat:
+    only:
+        - UAT
+    tags:
+        - tae-api-uat-bash
+    environment:
+        name: uat
+    variables:
+        IMAGE_NAME: tae-be-uat
+        CONTAINER_NAME: tae-be-uat
+        DOCKER_HOST_PORT: 3502
+
+## uat Jobs begin ##
+image_build_uat:
+    stage: dockerize
+    extends:
+        - .tags_deploy-env_trigger_condition-uat
+        - .create_uat_env_file
+    script:
+        - docker build -t $IMAGE_NAME:$CI_PIPELINE_IID .
+        - docker tag $IMAGE_NAME:$CI_PIPELINE_IID $IMAGE_NAME:latest
+
+deploy_uat:
+    stage: deploy
+    extends:
+        - .ignore_git_checkout
+        - .tags_deploy-env_trigger_condition-uat
+    script:
+        - docker rm -f `docker ps -a --no-trunc | grep $CONTAINER_NAME | awk '{ print $1}'` 2> /dev/null || echo 0
+        - docker run -d --env-file ./.env --restart unless-stopped -p $DOCKER_HOST_PORT:3502 --name $CONTAINER_NAME $IMAGE_NAME:latest
+        - "echo -e \"LatestImage: $IMAGE_NAME:$CI_PIPELINE_IID\""
+        - docker images | grep "$IMAGE_NAME" | awk '{print $3}' | grep -v $(docker images | grep $IMAGE_NAME |grep latest |awk '{print $3}') | xargs docker rmi || echo 0
+## prod - conditions ##
+.tags_deploy-env_trigger_condition-prod:
+    only:
+        - main
+    tags:
+        - tae-api-prod
+    environment:
+        name: production
+    variables:
+        IMAGE_NAME: tae-be-production
+        CONTAINER_NAME: tae-be-production
+        DOCKER_HOST_PORT: 3502
+
+## prod Jobs begin ##
+image_build_prod:
+    stage: dockerize
+    extends:
+        - .tags_deploy-env_trigger_condition-prod
+        - .create_prod_env_file
+    script:
+        - docker build -t $IMAGE_NAME:$CI_PIPELINE_IID .
+        - docker tag $IMAGE_NAME:$CI_PIPELINE_IID $IMAGE_NAME:latest
+
+deploy_prod:
+    stage: deploy
+    extends:
+        - .ignore_git_checkout
+        - .tags_deploy-env_trigger_condition-prod
+    script:
+        - docker rm -f `docker ps -a --no-trunc | grep $CONTAINER_NAME | awk '{ print $1}'` 2> /dev/null || echo 0
+        - docker run -d  --restart unless-stopped -p $DOCKER_HOST_PORT:3502 --name $CONTAINER_NAME $IMAGE_NAME:latest
+        - "echo -e \"LatestImage: $IMAGE_NAME:$CI_PIPELINE_IID\""
+        - docker images | grep "$IMAGE_NAME" | awk '{print $3}' | grep -v $(docker images | grep $IMAGE_NAME |grep latest |awk '{print $3}') | xargs docker rmi || echo 0

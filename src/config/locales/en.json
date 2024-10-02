@@ -1,0 +1,125 @@
+{
+    "AUTH": {
+        "TOKEN_HEADER_NOT_FOUND": "Token header not found",
+        "TOKEN_NOT_FOUND": "Token not found",
+        "UNAUTHORIZED": "Oops! Unauthorized access",
+        "UNAUTHORIZED_USER": "You have no access to do this operation"
+    },
+    "USER": {
+        "ADMIN": {
+            "USER_EXIST": "user already exists",
+            "USER_ADDED": "User added successfully",
+            "USER_FETCH_SUCCESS": "Users fetched successfully",
+            "TAEPAYMENT_FETCH_SUCCESS": "TAE payment fetched successfully",
+            "USER_ACTIVATED": "User activated successfully",
+            "USER_BLOCKED": "User blocked successfully"
+        },
+        "LOGIN": {
+            "INVALID_CREDS": "Invalid credentials",
+            "LOGIN_SUCCESS": "Login successfully"
+        },
+        "OTP_SEND": "Otp send to email",
+        "USER_NOT_EXIST": "User not exist",
+        "INVALID_OTP": "OTP has expired",
+        "OTP_INVALID": "Invalid OTP",
+        "PASSWORD_CHANGE": "Password changed successfully",
+        "INVALID_CURRENT_PASSWORD": "Invalid current password",
+        "OTP_VERIFIED": "Otp verified successfully",
+        "LOGOUT_SUCCESS": "Logged out successfully",
+        "INVALID_INVITE_LINK": "Invite link is invalid",
+        "PASSWORD_SET": "Password successfully updated",
+        "INACTIVE_USER": "Your Account is Inactive",
+        "EMAIL_EXIST": "Email already exist",
+        "USER_UPDATE": "User profile updated successfully",
+        "EMAIL_ALREADY_VERIFIED": "User already verified",
+        "EMAIL_SENT_VERIFICATION": "OTP sent to your email for verification",
+        "EMAIL_VERIFIED": "Email verified successfully",
+        "OTP_EXPIRED": "OTP Expired"
+    },
+    "COMPANY": {
+        "COMPANY_NOT_EXIST": "Company not exist",
+        "COMPANY_ADDED": "Company added successfully",
+        "COMPANY_PROFILE_ADDED": "Company profile added successfully",
+        "COMPANY_NAME_EXIST": "Company name and registration number already exist",
+        "COMPANY_EXIST_USER": "Company exist for user",
+        "LIST_COMPANY_SUCCESS": "Company fetched successfully",
+        "PROFILE": {
+            "PROFILE_NOT_EXIST": "Company profile not exist",
+            "CANNOT_EDIT": "Cannot edit after approve",
+            "UPDATE_SUCCESS": "Company profile updated successfully"
+        },
+        "USERS": {
+            "INVITE_USER": "User invited successfully",
+            "USERS_FETCH": "Fetched all users successfully",
+            "USER_NOT_EXIST": "User is not exist under the company",
+            "STATUS_CHANGE": "Status changed successfully"
+        }
+    },
+    "PRODUCT": {
+        "TAE_FEES": "PRODUCT.TAE_FEES",
+        "CREATE_SUCCESS": "Product added successfully",
+        "PRODUCT_NOT_EXIST": "Product not exist",
+        "UPDATE_SUCCESS": "Product updated successfully",
+        "CANNOT_EDIT": "Cannot edit after approve",
+        "GET_SUCCESS": "Product fetched successfully",
+        "DELETE_SUCCESS": "Product deleted successfully",
+        "CANNOT_DELETE": "Product cannot delete."
+    },
+    "FILE": {
+        "UPLOAD_SUCCESS": "File uploaded successfully",
+        "URL_GENERATED": " Url generated successfully"
+    },
+    "PRODUCTION": {
+        "PRODUCTION_PLAN_CREATED": "Production plan created successfully",
+        "PRODUCTION_EXIST": "Production plan already exist",
+        "PRODUCTION_APPROVED": "Production plan already approved",
+        "UPDATED_SUCCESSFULLY": "Production plan updated successfully",
+        "FETCH_SUCCESS": "Production plan fetched successfully",
+        "DELETE_SUCCESS": "Production plan deleted successfully"
+    },
+    "COMMON": {
+        "COUNTRY_FETCH": "Country list fetched successfully",
+        "CITY_FETCH": "City fetched successfully",
+        "COUNTRY_NOT_EXIST": "Country is not exist",
+        "PORT_FETCH": "Port fetched successfully"
+    },
+    "IMPORTSHIPMENTS": {
+        "CREATE_SUCCESS": "Import created successfully",
+        "UPDATE_SUCCESS": "Import updated successfully",
+        "FETCH_SUCCESS": "Import fetched successfully",
+        "IMPORT_SHIPMENT_NOT_EXIST": "Import does not appear",
+        "CANNOT_EDIT": "Once approved, the import cannot be edited.",
+        "DELETE_SUCCESS": "Import deleted successfully",
+        "CANNOT_DELETE": "Import can't be deleted"
+    },
+    "VERIFIER": {
+        "COUNT_FETCHED": "Counts fetched successfully",
+        "COMPANY_STATUS": "Company status updated",
+        "PRODUCT_STATUS": "Product status updated",
+        "COMPANY_FETCHED": "Company fetched successfully",
+        "PRODUCTION_UPDATE": "Production status updated successfully",
+        "COMPENSATION_STATUS": "Compensation status updated",
+        "END_DESTINATION_STATUS": "End destination status updated",
+        "IMPORT_FETCH": "Import fetched successfully",
+        "PRODUCTION_PLAN_FETCH": "Production pln fetched successfully",
+        "IMPORT_UPDATE": "Import updated successfully",
+        "LOGS_FETCHED": "Logs fetched successfully",
+        "PAYMENT_DETAILS": "Payment details fetched successfully"
+    },
+    "COMPENSATION": {
+        "CREATE_SUCCESS": "Compensation created successfully",
+        "FETCH_SUCCESS": "Compensation fetched successfully",
+        "COMPENSATION_NOT_EXIST": "Compensation not found",
+        "UPDATE_SUCCESS": "Compensation updated successfully",
+        "DELETE_SUCCESS": "Compensation deleted successfully",
+        "TOTAL_WEIGHT_FETCH_SUCCESS": "Total weight fetched successfully"
+    },
+    "ENDDESTINATION": {
+        "CREATE_CUCCESS": "End Destination created successfully",
+        "FETCH_SUCCESS": "End Destination fetched successfully",
+        "UPDATE_FAILURE": "Error while updating End Destination",
+        "UPDATE_SUCCESS": "End Destination updated successfully",
+        "NOT_FOUND": "End Destination not found",
+        "DELETE_SUCCESS": "End Destination deleted successfully"
+    }
+}
