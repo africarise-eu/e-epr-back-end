@@ -19,17 +19,17 @@ exports.inviteUsers = async (params) => {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Invitation to Join eTAE Demo System</title>
+    <title>Invitation to Join eEPR Demo System</title>
 </head>
 <body>
     <p>Dear ${params.firstName}</p>
-    <p>Admin TAE of the new <strong>Taxa Ambiental sobre a embalagens (TAE)</strong> demo system has invited you to join as a <strong>${roleData.name}</strong> of the system.</p>
+    <p>Admin eEPR of the new <strong>Extended Producer Responsibility </strong> demo system has invited you to join as a <strong>${roleData.name}</strong> of the system.</p>
     <p>Click this link to Register:</p>
     <p><a href="${inviteLink}">Register Here</a></p>
     <p>You can then set your password.</p>
     <p>Please join and try it out, we would like to hear your feedback.</p>
-    <p>Obrigado!</p>
-    <p>eTAE Demo System Administrator</p>
+    <p>Yours Sincerely</p>
+    <p>eEPR Demo System Administrator</p>
 </body>
 </html>
 `,

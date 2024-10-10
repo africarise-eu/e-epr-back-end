@@ -8,12 +8,14 @@ const s3 = new aws.S3({
 
 exports.uploadFile = (file, path) => {
     const uploadParams = {
-        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        //Bucket: process.env.AWS_S3_BUCKET_NAME,
+        Bucket: "eepr-bucket",
         Key: path, // File name you want to save as in S3
         Body: file.data,
         ContentType: file.mimetype,
     };
-
+    console.log('Bucket Name:', process.env.AWS_S3_BUCKET_NAME);
+    console.log('Bucket Region:', process.env.AWS_REGION);
     return s3.upload(uploadParams).promise();
 };
 
